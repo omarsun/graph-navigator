@@ -1,3 +1,5 @@
+#!/usr/bin/env pwsh
+
 param(
     [Parameter(Mandatory=$false)]
     [string]$CommitMessage = "Update plugin files"
