@@ -1,0 +1,19 @@
+/* src/styles.css */
+.graph-navigation-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.graph-navigation-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--text-normal);
+  opacity: 0.8;
+}
+.graph-navigation-view {
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
