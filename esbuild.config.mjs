@@ -11,12 +11,22 @@ if you want to view the source, please visit the github repository of this plugi
 
 const prod = (process.argv[2] === "production");
 
+// Common build options
+const buildOptions = {
+	bundle: true,
+	minify: prod,
+	sourcemap: prod ? false : "inline",
+	target: "es2018",
+	logLevel: "info",
+};
+
+// Create context for TypeScript
 const context = await esbuild.context({
+	...buildOptions,
 	banner: {
 		js: banner,
 	},
 	entryPoints: ["src/main.ts"],
-	bundle: true,
 	external: [
 		"obsidian",
 		"electron",
@@ -31,27 +41,24 @@ const context = await esbuild.context({
 		"@lezer/common",
 		"@lezer/highlight",
 		"@lezer/lr",
-		...builtins],
+		...builtins
+	],
 	format: "cjs",
-	target: "es2018",
-	logLevel: "info",
-	sourcemap: prod ? false : "inline",
-	treeShaking: true,
 	outfile: "main.js",
-	minify: prod,
 });
 
-// Build CSS separately
-await esbuild.build({
+// Create context for CSS
+const cssContext = await esbuild.context({
+	...buildOptions,
 	entryPoints: ['src/styles.css'],
-	bundle: true,
 	outfile: 'styles.css',
-	minify: prod,
 });
 
 if (prod) {
 	await context.rebuild();
+	await cssContext.rebuild();
 	process.exit(0);
 } else {
 	await context.watch();
+	await cssContext.watch();
 }
