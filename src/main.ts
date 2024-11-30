@@ -24,6 +24,10 @@ class GraphNavigationView extends ItemView {
         return "Graph Navigation";
     }
 
+    getIcon(): string {
+        return "map";
+    }
+
     async onOpen() {
         const container = this.containerEl.children[1];
         container.empty();
@@ -51,6 +55,11 @@ export default class MyPlugin extends Plugin {
 			(leaf) => new GraphNavigationView(leaf)
 		);
 
+		// Add ribbon icon
+		this.addRibbonIcon('map', 'Graph Navigation', (evt: MouseEvent) => {
+			this.activateView();
+		});
+
 		// Register event handler for layout change
 		this.registerEvent(
 			this.app.workspace.on('layout-change', () => {
@@ -68,6 +77,22 @@ export default class MyPlugin extends Plugin {
 	onunload() {
 		// Deregister the view type
 		this.app.workspace.detachLeavesOfType(VIEW_TYPE_GRAPH_NAVIGATION);
+	}
+
+	private async activateView() {
+		const { workspace } = this.app;
+		
+		let leaf = workspace.getLeavesOfType(VIEW_TYPE_GRAPH_NAVIGATION)[0];
+		
+		if (!leaf) {
+			leaf = workspace.getLeaf('tab');
+			await leaf.setViewState({
+				type: VIEW_TYPE_GRAPH_NAVIGATION,
+				active: true,
+			});
+		}
+		
+		workspace.revealLeaf(leaf);
 	}
 
 	private handleEmptyLeaves() {
