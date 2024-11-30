@@ -1,0 +1,11 @@
+{
+	"id": "graph-navigator",
+	"name": "Graph Navigator",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "Navigate and analyze your Obsidian graph with enhanced features.",
+	"author": "Obsidian",
+	"authorUrl": "https://obsidian.md",
+	"fundingUrl": "https://obsidian.md/pricing",
+	"isDesktopOnly": false
+}
